@@ -7,11 +7,11 @@ Der **Omnixys Person Service** ist ein Java-basierter Microservice zur Verwaltun
 ## 🔍 Übersicht
 
 * Verwaltung von **Personenprofilen**, inkl. Rollen & Kontakten
-* Vollständig **GraphQL-basiert** (Code First, Spring Boot)
+* Vollständig **GraphQL-basiert (Schema First)** mit Spring Boot
 * Authentifizierung via **Keycloak**
 * Messaging über **Apache Kafka**
 * **Distributed Tracing** mit OpenTelemetry & Tempo
-* Datenbank: PostgreSQL
+* Datenbank: MongoDB
 
 ---
 
@@ -19,14 +19,14 @@ Der **Omnixys Person Service** ist ein Java-basierter Microservice zur Verwaltun
 
 | Komponente        | Technologie                  |
 | ----------------- | ---------------------------- |
-| Sprache           | Java (17+)                   |
+| Sprache           | Java (23)                    |
 | Framework         | Spring Boot                  |
 | Authentifizierung | Keycloak                     |
-| API               | GraphQL (Code First)         |
+| API               | GraphQL (Schema First)       |
 | Messaging         | Apache Kafka                 |
 | Tracing           | OpenTelemetry + Tempo        |
 | Monitoring        | Prometheus + Grafana         |
-| Datenbank         | PostgreSQL                   |
+| Datenbank         | MongoDB                      |
 | Logging           | Kafka-basiert via LoggerPlus |
 | Lizenz            | [GPLv3](./LICENSE.md)        |
 
@@ -41,7 +41,7 @@ Der **Omnixys Person Service** ist ein Java-basierter Microservice zur Verwaltun
 
 ---
 
-## 🧲 Projektstruktur
+## 🧾 Projektstruktur
 
 ```bash
 src/main/java/com/omnixys/person/
@@ -85,15 +85,20 @@ docker-compose up
 
 ## 📣 Kafka Topics
 
-| Topic            | Richtung | Beschreibung                    |
-| ---------------- | -------- | ------------------------------- |
-| `person.created` | Producer | Wird bei neuer Person ausgelöst |
-| `person.updated` | Producer | Änderungen an Personenprofil    |
-| `person.deleted` | Producer | Wird bei Löschung gesendet      |
+| Topic                         | Richtung | Beschreibung                                         |
+| ----------------------------- | -------- | ---------------------------------------------------- |
+| `shopping-cart.create.person` | Producer | Reagiert auf neue Warenkörbe mit Person              |
+| `shopping-cart.delete.person` | Producer | Reagiert auf Warenkorb-Löschungen                    |
+| `account.create.person`       | Producer | Wird beim Erstellen einer Person für Account erzeugt |
+| `notification.create.person`  | Producer | Sendet Benachrichtigung bei Erstellung               |
+| `notification.delete.person`  | Producer | Sendet Benachrichtigung bei Löschung                 |
+| `person.shutdown.core`        | Consumer | Wird konsumiert bei Core-Shutdown                    |
+| `person.start.core`           | Consumer | Initialisiert Personenservice beim Start             |
+| `person.restart.core`         | Consumer | Führt Re-Init des Service aus                        |
 
 ---
 
-## 🧑‍💼 Contributing
+## 🧑‍💻 Contributing
 
 Bitte lies [CONTRIBUTING.md](./CONTRIBUTING.md), bevor du Änderungen einreichst.
 Wir verwenden Branch-Schemata wie `feature/<feature-name>` und PR-Templates mit Testhinweisen.
