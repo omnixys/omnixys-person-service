@@ -1,0 +1,104 @@
+enum PersonType {
+    EMPLOYEE
+    CUSTOMER
+}
+enum RelationshipTyp{
+    PARTNER
+    BUSINESS_PARTNER
+    RELATIVE
+    COLLEAGUE
+    PARENT
+    SIBLING
+    CHILD
+    COUSIN
+}
+
+enum Interest {
+    INVESTMENTS
+    SAVING_AND_FINANCE
+    CREDIT_AND_DEBT
+    BANK_PRODUCTS_AND_SERVICES
+    FINANCIAL_EDUCATION_AND_COUNSELING
+    REAL_ESTATE
+    INSURANCE
+    SUSTAINABLE_FINANCE
+    TECHNOLOGY_AND_INNOVATION
+    TRAVEL
+}
+
+enum ContactOptions {
+    EMAIL
+    PHONE
+    LETTER
+    SMS
+}
+
+enum CustomerStatus {
+    ACTIVE
+    BLOCKED
+    INACTIVE
+    PENDING
+    SUSPENDED
+    CLOSED
+}
+
+enum MaritalStatus {
+    SINGLE
+    MARRIED
+    DIVORCED
+    WIDOWED
+}
+
+enum Gender {
+    MALE
+    FEMALE
+    DIVERSE
+}
+
+"""
+Sortierreihenfolge für Abfragen, z. B. aufsteigend (ASC) oder absteigend (DESC).
+"""
+enum directionInput {
+    ASC
+    DESC
+}
+
+"""
+Mögliche Vergleichsoperatoren für Filterbedingungen, z. B. 'EQ' für Gleichheit.
+"""
+enum Operator {
+    EQ
+    IN
+    GTE
+    LTE
+    LIKE
+    PREFIX
+}
+
+"""
+Filterbare Felder für dynamische Abfragen, spezifisch für verschiedene Entitäten.
+"""
+enum FilterOptions {
+    id
+    version
+    lastName
+    firstName
+    email
+    phoneNumber
+    username
+    tierLevel
+    subscribed
+    birthdate
+    gender
+    maritalStatus
+    customerState
+    interests
+    contactOptions
+    prefix
+    address_street
+    address_houseNumber
+    address_zipCode
+    address_city
+    address_state
+    address_country
+}

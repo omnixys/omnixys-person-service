@@ -1,0 +1,187 @@
+
+"""
+Filterbedingungen als Output-Typ.
+"""
+type Filter {
+    """
+    Das zu filternde Feld, z. B. userId oder orgUnit.
+    """
+    field: FilterOptions
+
+    """
+    Der Vergleichsoperator, z. B. EQ oder IN.
+    """
+    operator: Operator
+
+    """
+    Der Vergleichswert.
+    """
+    value: String
+
+    """
+    Logische UND-Verknüpfung mit weiteren Filtern.
+    """
+    AND: [Filter]
+
+    """
+    Logische ODER-Verknüpfung mit weiteren Filtern.
+    """
+    OR: [Filter]
+
+    """
+    Logische NOR-Verknüpfung mit weiteren Filtern.
+    """
+    NOR: [Filter]
+}
+
+"""
+Pagination-Parameter als Output-Typ.
+"""
+type Pagination {
+    """
+    Anzahl der zurückzugebenden Ergebnisse.
+    """
+    limit: Int
+    """
+    Startpunkt der Ergebnisse.
+    """
+    offset: Int
+}
+
+"""
+Sortierparameter als Output-Typ.
+"""
+type Sort {
+    """
+    Feld, nach dem sortiert werden soll.
+    """
+    field: FilterOptions
+    """
+    Sortierreihenfolge, z. B. ASC oder DESC.
+    """
+    direction: directionInput
+}
+
+"""
+Generisches Ergebnis für Mutations.
+"""
+type MutationResponse {
+    """
+    Gibt an, ob die Operation erfolgreich war.
+    """
+    success: Boolean
+    """
+    Zusätzliche Informationen oder Fehlermeldungen.
+    """
+    message: String
+    """
+    Das Ergebnis der Mutation, z. B. die erstellte oder aktualisierte Entität.
+    """
+    result: Customer
+    """
+    Anzahl der betroffenen Entitäten.
+    """
+    affectedCount: Int
+    """
+    Warnungen oder Hinweise zur Operation.
+    """
+    warnings: [String]
+}
+
+type Person {
+    id: ID
+    personType: PersonType
+    version:  Int
+    lastName: String
+    firstName: String
+    email: String
+    phoneNumber: String
+    username: String
+    birthdate: String
+    gender: Gender
+    address: Adresse
+    customer: Customer
+    employee: Employee
+    created: String
+    updated: String
+}
+
+type Customer {
+    tierLevel: Int
+    subscribed: Boolean
+    maritalStatus: MaritalStatus
+    customerState: CustomerStatus
+    contactOptions: [ContactOptions]
+    interests: [Interest]
+    contactIds: [ID]
+}
+
+type Employee {
+    departement: String
+    salary: Float
+    hireDate: String
+    isExternal: Boolean
+    role: String
+    position: String
+}
+
+
+type Adresse {
+street: String,
+houseNumber: String,
+zipCode: String,
+city: String,
+state: String,
+country: String
+}
+
+type Contact {
+    id: ID
+    lastName: String
+    firstName: String
+    Relationship: RelationshipTyp
+    withdrawalLimit: Int
+    emergencyContact: Boolean
+    startDate: String
+    endDate: String
+}
+
+"""
+Ergebnis einer Authentifizierungsoperation.
+"""
+type TokenResult {
+    """
+    Zugriffstoken für authentifizierte Operationen.
+    """
+    access_token: String!
+
+    """
+    Gültigkeitsdauer des Zugriffstokens (in Sekunden).
+    """
+    expires_in: Int!
+
+    """
+    Token zur Erneuerung des Zugriffstokens.
+    """
+    refresh_token: String!
+
+    """
+    Gültigkeitsdauer des Refresh-Tokens (in Sekunden).
+    """
+    refresh_expires_in: Int!
+
+    """
+    ID-Token, das Benutzerinformationen enthält.
+    """
+    id_token: String!
+
+    """
+    Gültigkeitsbereich des Tokens.
+    """
+    scope: String!
+}
+
+type UserInfo {
+    subject: String
+    claims: String
+}

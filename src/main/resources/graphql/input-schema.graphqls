@@ -1,0 +1,175 @@
+input CreateCustomerInput {
+    personInput: PersonCreateInput
+    customerInput: CustomerCreateInput
+    userInput: UserCreateInput
+}
+
+input PersonCreateInput {
+    lastName: String!
+    firstName: String!
+    email: String!
+    phoneNumber: String
+    birthdate: String!
+    gender: Gender!,
+    address: AddresseInput
+}
+
+"""
+Input-Daten für die Erstellung eines Benutzers.
+"""
+input CustomerCreateInput {
+    tierLevel: Int!
+    subscribed: Boolean
+    maritalStatus: MaritalStatus,
+    contactOptions: [ContactOptions]
+    interests: [Interest]
+}
+
+input UserCreateInput {
+    username: String!
+    password: String!
+}
+
+input CreateEmployeeInput {
+    personInput: PersonCreateInput
+    employeeInput: EmployeeCreateInput
+    userInput: UserCreateInput
+}
+
+input EmployeeCreateInput {
+    department:  String!
+    salary: Float!
+    hireDate: String
+    isExternal: Boolean
+    role: String,
+    position: String
+}
+
+input UpdateCustomerInput {
+    personInput: PersonUpdateInput
+    customerInput: CustomerUpdateInput
+}
+
+input PersonUpdateInput {
+    lastName: String
+    firstName: String
+    phoneNumber: String
+    email: String
+    address: AddresseInput
+}
+
+"""
+Input-Daten für die Aktualisierung eines Benutzers.
+"""
+input CustomerUpdateInput {
+    tierLevel: Int
+    subscribed: Boolean
+    maritalStatus: MaritalStatus,
+    contactOptions: [ContactOptions]
+    interests: [Interest]
+}
+
+input UpdateEmployeeInput {
+    personInput: PersonUpdateInput
+    employeeInput: EmployeeUpdateInput
+}
+
+input EmployeeUpdateInput {
+    department:  String
+    salary: Float
+    isExternal: Boolean
+    role: String,
+    position: String
+}
+
+
+
+
+
+"""
+Pagination-Parameter für die Steuerung von Ergebnisgrößen.
+"""
+input PaginationInput {
+    """
+    Anzahl der zurückzugebenden Ergebnisse (Standard: 10).
+    """
+    limit: Int
+    """
+    Startpunkt der Ergebnisse (Standard: 0).
+    """
+    offset: Int
+}
+
+"""
+Filterbedingungen für Abfragen.
+"""
+input FilterInput {
+    """
+    Das zu filternde Feld, z. B. userId oder orgUnit.
+    """
+    field: FilterOptions
+
+    """
+    Der Vergleichsoperator, z. B. EQ oder IN.
+    """
+    operator: Operator
+
+    """
+    Der Vergleichswert.
+    """
+    value: String
+
+    """
+    Logische UND-Verknüpfung mit weiteren Filtern.
+    """
+    AND: [FilterInput]
+
+    """
+    Logische ODER-Verknüpfung mit weiteren Filtern.
+    """
+    OR: [FilterInput]
+
+    """
+    Logische NOR-Verknüpfung mit weiteren Filtern.
+    """
+    NOR: [FilterInput]
+}
+
+"""
+Sortierparameter für Abfragen.
+"""
+input SortInput {
+    """
+    Feld, nach dem sortiert werden soll.
+    """
+    field: FilterOptions
+
+    """
+    Sortierreihenfolge, z. B. ASC oder DESC.
+    """
+    direction: directionInput
+}
+
+
+
+
+input AddresseInput {
+    street: String,
+    houseNumber: String,
+    zipCode: String,
+    city: String,
+    state: String,
+    country: String
+}
+
+
+
+input ContactInput {
+    lastName: String
+    firstName: String
+    relationship: RelationshipTyp
+    withdrawalLimit: Int
+    emergencyContact: Boolean
+    startDate: String
+    endDate: String
+}

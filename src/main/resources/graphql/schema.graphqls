@@ -1,0 +1,36 @@
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+###############################################################################################
+# Q U E R I E S
+###############################################################################################
+type Query {
+    customer(id: ID!): Person!
+    employee(id: ID!): Person!
+    customers(filter: FilterInput, pagination: PaginationInput, order: SortInput): [Person!]
+    employees(filter: FilterInput, pagination: PaginationInput, order: SortInput): [Person!]
+    hallo: String
+}
+
+###############################################################################################G
+# M U T A T I O N S
+###############################################################################################
+type Mutation {
+    createCustomer(input: CreateCustomerInput!): ID!
+    createEmployee(input: CreateEmployeeInput!): ID!
+
+    updateCustomer(input: UpdateCustomerInput!, id: ID!, version: Int!): Person!
+    updateEmployee(input: UpdateEmployeeInput!, id: ID!, version: Int!): Person!
+
+    deleteCustomer(id: ID!, version: Int!): Boolean!
+    deleteEmployee(id: ID!, version: Int!): Boolean!
+
+    addContact(id: ID!, input: ContactInput): ID!
+    updateContact(id: ID!, contactId: ID!, customerVersion: Int!, contactVersion: Int!, input: ContactInput): Contact!
+    removeContact(id: ID!, contactId: ID!, customerVersion: Int!, contactVersion: Int!): Boolean!
+
+    updatePassword(newPassword: String!): Boolean!
+    me: UserInfo!
+}
