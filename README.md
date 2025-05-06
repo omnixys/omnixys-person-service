@@ -109,3 +109,33 @@ Wir verwenden Branch-Schemata wie `feature/<feature-name>` und PR-Templates mit 
 
 Veröffentlicht unter der [GNU GPLv3](./LICENSE.md)
 © 2025 [Omnixys](https://omnixys.com) – Modular Thinking. Infinite Possibilities.
+
+---
+
+## 🔍 `PersonQueryResolver` (lesend)
+
+| Methode | Zweck |
+|--------|-------|
+| `getCustomerById(UUID id)` | Einzelnen Kunden abfragen |
+| `getEmployeeById(UUID id)` | Einzelnen Mitarbeiter abfragen |
+| `findCustomers(CustomerFilter filter)` | Kundenliste mit Filter (z. B. Status, Interesse, etc.) |
+| `findEmployees(EmployeeFilter filter)` | Mitarbeiterliste mit Filter (z. B. Abteilung, Rolle, Position) |
+
+---
+
+## ✍️ `PersonMutationResolver` (schreibend)
+
+| Methode | Zweck |
+|--------|-------|
+| `createCustomer(CreateCustomerInput)` | Erstellt neuen Kunden inkl. `Person` |
+| `createEmployee(CreateEmployeeInput)` | Erstellt neuen Mitarbeiter inkl. `Person` |
+| `updateCustomer(UUID id, UpdateCustomerInput)` | Aktualisiert Kundendaten |
+| `updateEmployee(UUID id, UpdateEmployeeInput)` | Aktualisiert Mitarbeiterdaten |
+| `addContact(UUID personId, ContactInput)` | Fügt Kontakt hinzu |
+| `updateContact(UUID contactId, UpdateContactInput)` | Aktualisiert Kontakt |
+| `removeContact(UUID contactId)` | Löscht Kontakt |
+| `updatePassword(UUID personId, String newPassword)` | Passwort aktualisieren |
+| `deleteCustomer(UUID personId)` | Kunde löschen |
+| `deleteEmployee(UUID personId)` | Mitarbeiter löschen |
+| ✅ Weitere Methoden | z. B. zum Zurücksetzen, Reaktivieren, Sperren etc.
+

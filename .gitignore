@@ -1,37 +1,44 @@
-HELP.md
+# === Java / Gradle ===
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+!gradle-wrapper.properties
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# === IDEs ===
+.idea/
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
+*.iws
 .vscode/
+.classpath
+.project
+.settings/
+
+# === Logs & Runtime ===
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# === System / OS ===
+.DS_Store
+Thumbs.db
+
+# === Environment Files ===
+.env
+.env.*
+
+# === Test / Coverage ===
+/coverage
+/.nyc_output
+.pytest_cache/
+target/
+out/
+
+# === MongoDB / Temp ===
+*.lock
+.dump/
+data/
+temp/
+tmp/
