@@ -30,8 +30,8 @@ spring:
             addTypeInfo: false
           type:
             mapping:
-              createAccount: com.gentlecorp.person.models.event.CreateAccountDTO
-              deleteAccount: com.gentlecorp.person.models.event.DeleteAccountDTO
+              createAccount: com.omnixys.person.models.event.CreateAccountDTO
+              deleteAccount: com.omnixys.person.models.event.DeleteAccountDTO
 
   graphql:
     graphiql:
@@ -88,7 +88,7 @@ management:
 app:
   version: ${spring.application.version}
   name: ${spring.application.name}
-  groupId: gentlecorp-${spring.application.name}
+  groupId: omnixys-${spring.application.name}
   env: ${ACTIVE_PROFILE:test}
   password: p
   keycloak:
@@ -119,7 +119,7 @@ logging:
       %date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5level ${PID:- } --- [%thread]
       %-40.40logger{39} : %m%n%wEx
   level:
-    com.gentlecorp.person: trace
+    com.omnixys.person: trace
     org.apache.catalina.loader.WebappClassLoaderBase: info
     org.springframework.boot.availability.ApplicationAvailabilityBean: debug
     org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener: warn

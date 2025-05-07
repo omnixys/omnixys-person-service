@@ -1,4 +1,4 @@
-package com.gentlecorp.person;
+package com.omnixys.person;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

@@ -85,17 +85,19 @@ docker-compose up
 
 ## 📣 Kafka Topics
 
-| Topic                           | Richtung | Beschreibung                                         |
-|---------------------------------| -------- | ---------------------------------------------------- |
-| `shopping-cart.create.person`   | Producer | Reagiert auf neue Warenkörbe mit Person              |
-| `shopping-cart.delete.person`   | Producer | Reagiert auf Warenkorb-Löschungen                    |
-| `account.create.person`         | Producer | Wird beim Erstellen einer Person für Account erzeugt |
-| `notification.create.person`    | Producer | Sendet Benachrichtigung bei Erstellung               |
-| `notification.delete.person`    | Producer | Sendet Benachrichtigung bei Löschung                 |
-| `person.shutdown.orchestratore` | Consumer | Wird konsumiert bei Core-Shutdown                    |
-| `person.start.orchestratore`    | Consumer | Initialisiert Personenservice beim Start             |
-| `person.restart.orchestratore`  | Consumer | Führt Re-Init des Service aus                        |
-
+| Topic                          | Richtung | Beschreibung                                         |
+|--------------------------------| -------- | ---------------------------------------------------- |
+| `shopping-cart.create.person`  | Producer | Reagiert auf neue Warenkörbe mit Person              |
+| `shopping-cart.delete.person`  | Producer | Reagiert auf Warenkorb-Löschungen                    |
+| `account.create.person`        | Producer | Wird beim Erstellen einer Person für Account erzeugt |
+| `notification.create.person`   | Producer | Sendet Benachrichtigung bei Erstellung               |
+| `notification.delete.person`   | Producer | Sendet Benachrichtigung bei Löschung                 |
+| `person.shutdown.orchestrator` | Consumer | Wird konsumiert bei Core-Shutdown                    |
+| `person.start.orchestrator`    | Consumer | Initialisiert Personenservice beim Start             |
+| `person.restart.orchestrator`  | Consumer | Führt Re-Init des Service aus                        |
+| `all.shutdown.orchestrator`    | Consumer | Wird konsumiert bei Core-Shutdown                    |
+| `all.start.orchestrator`       | Consumer | Initialisiert Personenservice beim Start             |
+| `all.restart.orchestrator`     | Consumer | Führt Re-Init des Service aus                        |
 ---
 
 ## 🧑‍💻 Contributing
