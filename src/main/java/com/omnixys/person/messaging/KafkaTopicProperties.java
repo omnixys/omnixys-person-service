@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 /**
  * Zentrale Konfiguration der Kafka-Topic-Namen.
  * <p>
- * Die Namen folgen dem Schema: {@code <service>.<entity>.<events>}.
+ * Die Namen folgen dem Schema: {@code <service>.<events>.<service>}.
  * </p>
  *
  * @author <a href="mailto:caleb-script@outlook.de">Caleb Gyamfi</a>
- * @since 20.04.2025
+ * @since 07.05.2025
  */
 @RequiredArgsConstructor
 public final class KafkaTopicProperties {
