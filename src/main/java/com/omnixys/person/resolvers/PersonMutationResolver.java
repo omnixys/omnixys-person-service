@@ -25,6 +25,7 @@ import com.omnixys.person.utils.ValidationService;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
 import graphql.schema.DataFetchingEnvironment;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.ConstraintViolation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -77,6 +78,7 @@ public class PersonMutationResolver {
      */
 
     @MutationMapping("createCustomer")
+    @PermitAll
     UUID createCustomer(
         @Argument("input") final CreateCustomerInput createCustomerInput
     ) {
