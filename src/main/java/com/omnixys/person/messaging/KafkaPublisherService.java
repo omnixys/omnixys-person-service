@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import static com.omnixys.person.messaging.KafkaTopicProperties.*;
@@ -74,6 +76,14 @@ public class KafkaPublisherService {
         sendKafkaEvent(topic, mailDTO, "sendMail");
     }
 
+    @Observed(name = "kafka-publisher.kpi")
+    public void sendKPI(boolean isCreated) {
+        final var topic = isCreated
+            ? TOPIC_KPI_CREATE_PERSON
+            :  TOPIC_KPI_DELETE_PERSON;
+
+        sendKafkaEvent(topic, Map.of("createdAt", LocalDateTime.now().toString()), "sendKPI");
+    }
 
     @Observed(name = "kafka-publisher.create-account")
     public void createAccount(UUID personId, String username) {

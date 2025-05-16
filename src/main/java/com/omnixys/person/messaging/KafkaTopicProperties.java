@@ -24,7 +24,7 @@ public final class KafkaTopicProperties {
     public static final String TOPIC_SHOPPING_CART_CREATE_PERSON = "shopping-cart.create.person";
     public static final String TOPIC_SHOPPING_CART_DELETE_PERSON = "shopping-cart.delete.person";
 
-    public static final String TOPIC_LOG_STREAM_LOG_PERSON = "log-Stream.log.person";
+    public static final String TOPIC_LOG_STREAM_LOG_PERSON = "logstream.log.person";
 
     public static final String TOPIC_PERSON_SHUTDOWN_ORCHESTRATOR = "person.shutdown.orchestrator";
     public static final String TOPIC_PERSON_START_ORCHESTRATOR = "person.start.orchestrator";
@@ -33,4 +33,8 @@ public final class KafkaTopicProperties {
     public static final String TOPIC_ALL_SHUTDOWN_ORCHESTRATOR = "all.shutdown.orchestrator";
     public static final String TOPIC_ALL_START_ORCHESTRATOR = "all.start.orchestrator";
     public static final String TOPIC_ALL_RESTART_ORCHESTRATOR = "all.restart.orchestrator";
+
+    public static final String TOPIC_KPI_CREATE_PERSON = "kpi.create.person";
+    public static final String TOPIC_KPI_DELETE_PERSON = "all.delete.person";
+
 }

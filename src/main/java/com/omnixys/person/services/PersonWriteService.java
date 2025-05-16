@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
@@ -123,6 +124,7 @@ public class PersonWriteService {
                 kafkaPublisherService.sendMail(TOPIC_NOTIFICATION_CREATE_PERSON,savedCustomer, role, false);
                 kafkaPublisherService.createAccount(savedCustomer.getId(), savedCustomer.getUsername());
                 kafkaPublisherService.createShoppingCart(savedCustomer.getId(),savedCustomer.getUsername());
+                kafkaPublisherService.sendKPI(true);
             } catch (Exception e) {
                 kafkaSpan.recordException(e);
                 kafkaSpan.setStatus(StatusCode.ERROR, "Fehler beim versenden der Nachrichten");
@@ -248,6 +250,7 @@ public class PersonWriteService {
                 kafkaPublisherService.deleteShoppingCart(customerDb.getId());
                 kafkaPublisherService.deleteAccount(customerDb.getId(), customerDb.getVersion(), customerDb.getUsername());
                 kafkaPublisherService.sendMail(TOPIC_NOTIFICATION_DELETE_PERSON,customerDb,null, true);
+                kafkaPublisherService.sendKPI(false);
             } catch (Exception e) {
                 kafkaSpan.recordException(e);
                 kafkaSpan.setStatus(StatusCode.ERROR, "Fehler beim versenden der Nachrichten");
