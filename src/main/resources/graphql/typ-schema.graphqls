@@ -114,10 +114,11 @@ type Customer {
     contactOptions: [ContactOptions]
     interests: [Interest]
     contactIds: [ID]
+    contacts: [Contact]
 }
 
 type Employee {
-    departement: String
+    department: String
     salary: Float
     hireDate: String
     isExternal: Boolean
@@ -139,7 +140,7 @@ type Contact {
     id: ID
     lastName: String
     firstName: String
-    Relationship: RelationshipTyp
+    relationship: RelationshipTyp
     withdrawalLimit: Int
     emergencyContact: Boolean
     startDate: String

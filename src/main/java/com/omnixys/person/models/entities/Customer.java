@@ -63,6 +63,8 @@ public class Customer {
 //    @JsonProperty("contacts") // für Jackson-Deserialisierung
     private List<UUID> contactIds;
 
+    private List<Contact> contacts;
+
     /**
      * Liste der Interessen des Kunden.
      */

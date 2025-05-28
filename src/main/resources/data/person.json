@@ -1,50 +1,57 @@
-[
-  {
-    "_id": {
-      "$binary": {
-        "base64": "AAAAAAAAAAAAAAAAAAAAAA==",
-        "subType": "04"
-      }
-    },
-    "version": 0,
-    "lastName": "Admin",
-    "firstName": "Caleb",
-    "personType": "CUSTOMER",
-    "email": "admin@gentlecorp.com",
-    "phoneNumber": "0000/0000000",
-    "username": "admin",
-    "birthdate": {
-      "$date": "1999-05-03T00:00:00.000Z"
-    },
-    "gender": "MALE",
-    "customer": {
-      "tierLevel": 3,
-      "subscribed": true,
-      "maritalStatus": "MARRIED",
-      "customerState": "ACTIVE",
-      "contactOptions": [
-        "EMAIL",
-        "PHONE",
-        "LETTER",
-        "SMS"
-      ],
-      "interests": null
-    },
-    "address": {
-      "street": "Kwame Nkrumah Street",
-      "houseNumber": "45",
-      "zipCode": "KA003",
-      "city": "Kumasi",
-      "state": "Ashanti Region",
-      "country": "Ghana"
-    },
-    "created": {
-      "$date": "2023-10-05T12:00:00.000Z"
-    },
-    "updated": {
-      "$date": "2023-10-05T12:00:00.000Z"
+[{
+  "_id": {
+    "$binary": {
+      "base64": "AAAAAAAAAAAAAAAAAAAAAA==",
+      "subType": "04"
     }
   },
+  "version": 0,
+  "lastName": "Admin",
+  "firstName": "Caleb",
+  "personType": "EMPLOYEE",
+  "email": "admin@omnixys.com",
+  "phoneNumber": "0000/0000000",
+  "username": "admin",
+  "birthdate": {
+    "$date": "1999-05-03T00:00:00.000Z"
+  },
+  "gender": "MALE",
+  "customer": {
+    "tierLevel": 3,
+    "subscribed": true,
+    "maritalStatus": "MARRIED",
+    "customerState": "ACTIVE",
+    "contactOptions": [
+      "EMAIL",
+      "PHONE",
+      "LETTER",
+      "SMS"
+    ],
+    "interests": null,
+    "contactIds": [
+      {
+        "$binary": {
+          "base64": "IAAAAAAAAAAAAAAAAAAAVw==",
+          "subType": "04"
+        }
+      }
+    ]
+  },
+  "address": {
+    "street": "Kwame Nkrumah Street",
+    "houseNumber": "45",
+    "zipCode": "KA003",
+    "city": "Kumasi",
+    "state": "Ashanti Region",
+    "country": "Ghana"
+  },
+  "created": {
+    "$date": "2023-10-05T12:00:00.000Z"
+  },
+  "updated": {
+    "$date": "2023-10-05T12:00:00.000Z"
+  }
+},
   {
     "_id": {
       "$binary": {
@@ -71,7 +78,27 @@
       "contactOptions": [
         "LETTER"
       ],
-      "interests": null
+      "interests": null,
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAAw==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAABA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAABQ==",
+            "subType": "04"
+          }
+        }
+      ]
     },
     "address": {
       "street": "Namurstraße",
@@ -119,6 +146,14 @@
       "interests": [
         "BANK_PRODUCTS_AND_SERVICES",
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAABg==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -165,6 +200,14 @@
       ],
       "interests": [
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAABw==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -212,6 +255,20 @@
       "interests": [
         "TECHNOLOGY_AND_INNOVATION",
         "TRAVEL"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAACA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAACQ==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -261,6 +318,20 @@
         "BANK_PRODUCTS_AND_SERVICES",
         "FINANCIAL_EDUCATION_AND_COUNSELING",
         "SUSTAINABLE_FINANCE"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAEA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAEQ==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -310,6 +381,14 @@
         "REAL_ESTATE",
         "INVESTMENTS",
         "CREDIT_AND_DEBT"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAEg==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -356,7 +435,8 @@
         "LETTER",
         "SMS"
       ],
-      "interests": null
+      "interests": null,
+      "contactIds": []
     },
     "address": {
       "street": "Namurstraße",
@@ -399,7 +479,39 @@
       "contactOptions": [
         "PHONE"
       ],
-      "interests": null
+      "interests": null,
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAEw==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAFA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAFQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAFg==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAFw==",
+            "subType": "04"
+          }
+        }
+      ]
     },
     "address": {
       "street": "Ludwigstraße",
@@ -447,6 +559,20 @@
       "interests": [
         "SUSTAINABLE_FINANCE",
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAGA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAGQ==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -493,6 +619,14 @@
       ],
       "interests": [
         "REAL_ESTATE"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAIA==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -540,6 +674,14 @@
       "interests": [
         "INVESTMENTS",
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAIQ==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -592,6 +734,20 @@
         "CREDIT_AND_DEBT",
         "INSURANCE",
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAIg==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAIw==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -640,7 +796,8 @@
       "interests": [
         "BANK_PRODUCTS_AND_SERVICES",
         "TECHNOLOGY_AND_INNOVATION"
-      ]
+      ],
+      "contactIds": []
     },
     "address": {
       "street": "King’s Road",
@@ -685,6 +842,20 @@
       ],
       "interests": [
         "SAVING_AND_FINANCE"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAJA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAJQ==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -730,6 +901,38 @@
       ],
       "interests": [
         "REAL_ESTATE"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAJg==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAJw==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAKA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAKQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAMA==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -782,6 +985,14 @@
         "SAVING_AND_FINANCE",
         "REAL_ESTATE",
         "CREDIT_AND_DEBT"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAMQ==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -825,7 +1036,8 @@
       "contactOptions": [
         "PHONE"
       ],
-      "interests": null
+      "interests": null,
+      "contactIds": []
     },
     "address": {
       "street": "Broadway",
@@ -871,6 +1083,50 @@
       ],
       "interests": [
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAMg==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAMw==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAANA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAANQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAANg==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAANw==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAOA==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -922,6 +1178,26 @@
         "REAL_ESTATE",
         "CREDIT_AND_DEBT",
         "INSURANCE"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAOQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAQA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAQQ==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -969,6 +1245,14 @@
       "interests": [
         "SUSTAINABLE_FINANCE",
         "BANK_PRODUCTS_AND_SERVICES"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAQg==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -1016,6 +1300,32 @@
       "interests": [
         "TECHNOLOGY_AND_INNOVATION",
         "REAL_ESTATE"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAQw==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAARA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAARQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAARg==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -1063,6 +1373,32 @@
       "interests": [
         "TRAVEL",
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAARw==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAASA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAASQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAUA==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -1110,6 +1446,26 @@
       "interests": [
         "TRAVEL",
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAUQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAUg==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAUw==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -1157,6 +1513,26 @@
       "interests": [
         "TRAVEL",
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAVA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAVQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAVg==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -1182,12 +1558,12 @@
       }
     },
     "version": 0,
-    "lastName": "Gyamfi",
+    "lastName": "Script",
     "firstName": "Caleb",
     "personType": "CUSTOMER",
-    "email": "caleb_g@outlook.de",
+    "email": "caleb-script@outlook.de",
     "phoneNumber": "015111951223",
-    "username": "gentlecg99",
+    "username": "caleb-script",
     "birthdate": {
       "$date": "1999-05-03T00:00:00.000Z"
     },
@@ -1205,6 +1581,26 @@
       ],
       "interests": [
         "TECHNOLOGY_AND_INNOVATION"
+      ],
+      "contactIds": [
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAAA==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAAQ==",
+            "subType": "04"
+          }
+        },
+        {
+          "$binary": {
+            "base64": "IAAAAAAAAAAAAAAAAAAAAg==",
+            "subType": "04"
+          }
+        }
       ]
     },
     "address": {
@@ -1259,7 +1655,8 @@
         "SUSTAINABLE_FINANCE",
         "TECHNOLOGY_AND_INNOVATION",
         "TRAVEL"
-      ]
+      ],
+      "contactIds": []
     },
     "address": {
       "street": "Connell Street",
@@ -1275,5 +1672,4 @@
     "updated": {
       "$date": "2023-10-05T12:00:00.000Z"
     }
-  }
-]
+  }]

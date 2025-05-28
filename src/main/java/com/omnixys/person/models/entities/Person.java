@@ -18,6 +18,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -127,5 +129,9 @@ public class Person {
         address = person.getAddress() != null ? person.getAddress() : address;
         employee = person.getEmployee() != null ? person.getEmployee() : employee;
         customer = person.getCustomer() != null ? person.getCustomer() : customer;
+    }
+
+    public void setContacts(final Collection<Contact> contacts) {
+        customer.setContacts(contacts.stream().toList());
     }
 }

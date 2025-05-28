@@ -22,6 +22,7 @@ app:
   keys:
     path: ${KEYS_PATH}
 
+
   http2:
    enabled: ${HTTPS:true}
   ssl:

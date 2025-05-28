@@ -19,7 +19,7 @@ server:
 spring:
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${app.kafka.host}:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       # value-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -79,9 +79,7 @@ management:
       probability: 1.0
   otlp:
     tracing:
-      # endpoint: http://tempo:4318
-      endpoint: http://localhost:4318/v1/traces
-      # endpoint: http://localhost:4317
+      endpoint: http://${app.tracing.tempo}:4318/v1/traces
 
 
 # Applikationsspezifische Einstellungen
@@ -97,6 +95,12 @@ app:
     port: ${KC_SERVICE_PORT}
     realm: ${KC_SERVICE_REALM}
     client-id: ${KC_SERVICE_CLIENT_ID}
+
+  tracing:
+    tempo: ${TEMPO_HOST}
+
+  kafka:
+    host: ${KAFKA_HOST}
 
   mongo:
     uri: ${MONGODB_URI}

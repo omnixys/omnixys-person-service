@@ -8,6 +8,7 @@ import com.omnixys.person.models.inputs.FilterInput;
 import com.omnixys.person.models.inputs.PaginationInput;
 import com.omnixys.person.models.inputs.SortInput;
 import com.omnixys.person.security.CustomUserDetails;
+import com.omnixys.person.services.ContactReadService;
 import com.omnixys.person.services.PersonReadService;
 import com.omnixys.person.services.PersonWriteService;
 import com.omnixys.person.tracing.LoggerPlus;
@@ -46,6 +47,7 @@ import static org.springframework.graphql.execution.ErrorType.NOT_FOUND;
 public class PersonQueryResolver {
 
     private final PersonReadService personReadService;
+    private final ContactReadService contactReadService;
     private final LoggerPlusFactory factory;
     private LoggerPlus logger() {
         return factory.getLogger(getClass());
@@ -64,11 +66,14 @@ public class PersonQueryResolver {
         @Argument final UUID id,
         final Authentication authentication
     ) {
-        return getPerson(id, authentication);
+        final var customer = getPerson(id, authentication);
+        final var contacts = contactReadService.findByCustomerId(id);
+        customer.setContacts(contacts);
+        return customer;
     }
 
     @QueryMapping("employee")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'SUPREME', 'ELITE', 'BASIC')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     Person getEmployeeById(
         @Argument final UUID id,
         final Authentication authentication
