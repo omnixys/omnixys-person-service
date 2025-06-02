@@ -21,7 +21,7 @@ jobs:
       - name: Run OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@75ba02d6183445fe0761d26e836bde58b1560600
         with:
-          project: "Omnixys - CustomerService"
+          project: "Omnixys - Person-Service"
           path: './'
           format: 'HTML'
 
@@ -119,14 +119,14 @@ jobs:
         uses: docker/scout-action@0133ff88fe16d4a412dc4827a8fccbccb6b583e0
         with:
           command: quickview
-          image: calebscript/customer:${{ env.CURRENT_DATE }}
+          image: calebscript/person:${{ env.CURRENT_DATE }}
 
       - name: Docker Scout CVEs
         id: docker-scout-cves
         uses: docker/scout-action@0133ff88fe16d4a412dc4827a8fccbccb6b583e0
         with:
           command: cves
-          image: calebscript/customer:${{ env.CURRENT_DATE }}
+          image: calebscript/person:${{ env.CURRENT_DATE }}
 
       - name: Save Docker Scout Reports
         run: |
