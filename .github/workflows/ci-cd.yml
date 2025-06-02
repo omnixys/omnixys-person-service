@@ -11,13 +11,12 @@ on:
       - 'v*'  # Nur für Versionstags (z.B. v1.0.0)
 
 env:
-  IMAGE_NAME: omnixys-person-service
+  IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}
   MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
   SERVER_PORT: ${{ secrets.SERVER_PORT }}
   TEST_SERVER_PORT: ${{ secrets.TEST_SERVER_PORT }}
 
-  DOCKER_USER: caleb-script
-  REGISTRY: docker.io
+  
 
   ACTIVE_PROFILE: ${{ secrets.ACTIVE_PROFILE }}
   HTTPS: ${{ secrets.HTTPS }}
@@ -84,7 +83,7 @@ jobs:
       - name: Set CURRENT_DATE
         id: set_date
         run: |
-            DATE=$(date +'%Y.%m.%d')
+            DATE=$(date +'%Y-%m-%d')
             echo "CURRENT_DATE=$DATE" >> $GITHUB_OUTPUT
     
       - name: Speichere CURRENT_DATE in Repository-Variable
@@ -104,7 +103,6 @@ jobs:
         with:
           name: omnixys-person-service-jar
           path: build/libs/*.jar
-
 
   analyze:
     
@@ -140,7 +138,7 @@ jobs:
   package:
     name: 📦 Package Application
     runs-on: ubuntu-latest
-    needs: [build, analyze]
+    needs: [build]
     if: github.actor == 'caleb-script' && github.event_name == 'push'
     steps:
       - name: Download Artifact
@@ -157,30 +155,36 @@ jobs:
         with:
           name: person-service-package
           path: person-service.zip
+
   test:
-    name: teste current date
+    name: test
     runs-on: ubuntu-latest
     needs: build
     env:
       CURRENT_DATE: ${{ needs.build.outputs.CURRENT_DATE }}
     steps:
-        - name: Set CURRENT_DATE from previous job
-          run: echo "CURRENT_DATE=${{ needs.build.outputs.CURRENT_DATE }}" >> $GITHUB_ENV
+      - name: print env
+        run: | 
+          echo "${{ env.CURRENT_DATE }}"
+          echo "${{ env.IMAGE_NAME }}"
+
+      - name: Set IMAGE_NAME and CURRENT_DATE
+        run: |
+         echo "IMAGE_NAME=${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}" >> $GITHUB_ENV
+         echo "CURRENT_DATE=${{ needs.build.outputs.CURRENT_DATE }}" >> $GITHUB_ENV
       
-        - name: Print CURRENT_DATE
-          run: echo "Docker Image Tag = $CURRENT_DATE"
-
-        - name: Set CURRENT_DATE from Build Output
-          run: echo "${{ env.CURRENT_DATE }}"
-
-        - name: see vars
-          run: echo "${{ vars.CURRENT_DATE }}"
-
+      - name: Debug tags
+        run: |
+           echo "Tag: $CURRENT_DATE"
+           echo "Image: $IMAGE_NAME"
 
   docker:
     name: 🐳 Docker Build & Push
     runs-on: ubuntu-latest
     needs: [build, package]
+    env:
+      CURRENT_DATE: ${{ needs.build.outputs.CURRENT_DATE }}
+      IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}
     if: github.actor == 'caleb-script' && github.event_name == 'push'
     steps:
       - name: Checkout Repository
@@ -194,24 +198,18 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-        
-      - name: Set CURRENT_DATE from previous job
-        run: echo "CURRENT_DATE=${{ needs.build.outputs.CURRENT_DATE }}" >> $GITHUB_ENV
-
-      - name: Print CURRENT_DATE
-        run: echo "Docker Image Tag = $CURRENT_DATE"
 
       - name: Build Docker Image
         run: |
-          docker build -t omnixys/person:$CURRENT_DATE .
+          docker build -t $IMAGE_NAME:${{ env.CURRENT_DATE }} .
   
         
       - name: Tag Docker Image
         run: |
-          docker tag omnixys/person:$CURRENT_DATE omnixys/person:latest
-          docker tag omnixys/person:$CURRENT_DATE omnixys/person:$CURRENT_DATE
+          docker tag $IMAGE_NAME:${{ env.CURRENT_DATE }} $IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:${{ env.CURRENT_DATE }} $IMAGE_NAME:${{ env.CURRENT_DATE }}
 
       - name: Push Docker Image
         run: |
-          docker push omnixys/person:$CURRENT_DATE
-          docker push omnixys/person:latest
+          docker push $IMAGE_NAME:${{ env.CURRENT_DATE }}
+          docker push $IMAGE_NAME:latest
