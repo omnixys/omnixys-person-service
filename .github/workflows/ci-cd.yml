@@ -23,6 +23,8 @@ env:
   HTTPS: ${{ secrets.HTTPS }}
 
   MONGODB_URI: ${{ secrets.MONGODB_URI }}
+  MONGODB_USER_NAME: ${{ secrets.MONGODB_USER_NAME }}
+  MONGODB_USER_PASSWORT: ${{ secrets.MONGODB_USER_PASSWORT }}
 
   NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -66,30 +68,6 @@ jobs:
 
       - name: Grant execute permissions for Gradle
         run: chmod +x ./gradlew
-      
-      - name: Create .env file
-        run: |
-          echo "MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }}" >> .env
-          echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
-          echo "TEST_SERVER_PORT=${{ secrets.TEST_SERVER_PORT }}" >> .env
-
-          echo "ACTIVE_PROFILE=${{ secrets.ACTIVE_PROFILE }}" >> .env
-          echo "HTTPS=${{ secrets.HTTPS }}" >> .env
-          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
-
-          echo "NVD_API_KEY: ${{ secrets.NVD_API_KEY }}" >> .env
-          echo "SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}" >> .env
-          echo "SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}" >> .env
-          echo "CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}" >> .env
-
-          echo "KC_SERVICE_SECRET: ${{ secrets.KC_SERVICE_SECRET }}" >> .env
-          echo "KC_SERVICE_CLIENT_ID: ${{ secrets.KC_SERVICE_CLIENT_ID }}" >> .env
-          echo "KC_SERVICE_REALM: ${{ secrets.KC_SERVICE_REALM }}" >> .env
-          echo "KC_SERVICE_HOST: ${{ secrets.KC_SERVICE_HOST }}" >> .env
-          echo "KC_SERVICE_PORT: ${{ secrets.KC_SERVICE_PORT }}" >> .env
-
-          echo "KAFKA_HOST: ${{ secrets.KAFKA_HOST }}" >> .env
-          echo "TEMPO_HOST: ${{ secrets.TEMPO_HOST }}" >> .env
 
       - name: Build with Gradle
         run: ./gradlew build
@@ -99,9 +77,6 @@ jobs:
         with:
           name: omnixys-person-service-jar
           path: build/libs/*.jar
-        
-      - name: Clean up .env file
-        run: rm .env
 
 
   analyze:
