@@ -178,6 +178,12 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
         
+      - name: Set CURRENT_DATE from needs
+        run: echo "CURRENT_DATE=${{ needs.build.outputs.CURRENT_DATE }}" >> $GITHUB_ENV
+
+      - name: Print CURRENT_DATE
+        run: echo "Docker Image Tag = $CURRENT_DATE"
+
       - name: Set CURRENT_DATE from Build Output
         run: echo "${{ env.CURRENT_DATE }}"
 
