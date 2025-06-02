@@ -43,8 +43,9 @@ data/
 temp/
 tmp/*
 
-# ===  Logs =========
+# ===  Logs / Tmp =========
 *.log
+tmp/
 
 # ===  Node.js =========
 node_modules/
