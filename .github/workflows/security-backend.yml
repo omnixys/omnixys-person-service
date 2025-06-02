@@ -1,108 +1,141 @@
 name: Security – Omnixys Person Service
 
 on:
-  push:
-    branches: [main]
   schedule:
     - cron: '0 3 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: read
+  security-events: write
+  # actions: read
+  
 jobs:
-  security:
-    name: 🔐 Security Scans (DepCheck, Sonar, Snyk, Docker)
+  dependency-check:
+    name: "Security-Dependency-Check-${{ vars.CURRENT_DATE }}"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Dependency Check (OWASP)
-        uses: dependency-check/Dependency-Check_Action@1.1.0
+      - name: Run OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@75ba02d6183445fe0761d26e836bde58b1560600
         with:
-          project: 'Omnixys Person Service'
-          path: '.'
+          project: "Omnixys - CustomerService"
+          path: './'
           format: 'HTML'
 
-      - name: Upload OWASP Report
+      - name: Upload Dependency Check report
         uses: actions/upload-artifact@v4
         with:
-          name: owasp-dependency-check-report
+          name: Depcheck-report
           path: ./reports
+  
+  snyk:
+    name: "Security-Snyk-Scan-${{ vars.CURRENT_DATE }}"
+    env:
+      CURRENT_DATE: ${{ vars.CURRENT_DATE }}
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Install Snyk CLI
-        run: npm install -g snyk snyk-to-html
+      - name: Set up Java 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '23'
 
-      - name: Authenticate Snyk
+      - name: Set up Snyk CLI
+        uses: snyk/actions/setup@cdb760004ba9ea4d525f2e043745dfe85bb9077e
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk auth "$SNYK_TOKEN"
 
-      - name: Snyk Monitor (all Maven projects)
-        run: snyk monitor --all-projects
+      - name: Authenticate with Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Generate HTML Report (Snyk)
+      - name: Resolve Gradle Dependencies
+        run: ./gradlew dependencies
+
+      - name: Run Snyk Code Test
+        run: snyk code test --sarif > snyk-code.sarif 
+        continue-on-error: true
+        
+      - name: Run Snyk Code Test JSON
+        run:  snyk test --severity-threshold=high --json-file-output=snyk-report.json
+        continue-on-error: true
+
+      - name: Install snyk-to-html
         run: |
-          snyk test --all-projects --json | snyk-to-html -o snyk-result.html
-          mkdir downloads
-          mv snyk-result.html downloads/
+          npm install snyk-to-html -g
 
-      - name: Upload Snyk HTML Report
+      - name: Generate HTML Report
+        run: |
+          snyk-to-html -i snyk-report.json -o snyk-report.html
+          mkdir -p reports
+          mv snyk-report.html reports/
+
+      - name: Upload Snyk Report
         uses: actions/upload-artifact@v4
         with:
-          name: snyk-report
-          path: downloads/snyk-result.html
+          name: Snyk-report
+          path: ./reports
+          #path: ./snyk-report.json
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Run Snyk Monitor for Gradle
+        if: github.event_name == 'push'
+        run: snyk monitor --all-projects #--severity-threshold=high
+
+      - name: Run Snyk IaC Test
+        run: snyk iac test --report 
+        continue-on-error: true
+
+      - name: Build a Docker Image
+        run: docker build -t omnixys/person:${{ env.CURRENT_DATE }} .
+
+      - name: Run Snyk Container Monitor
+        run: snyk container monitor omnixys/person:${{ env.CURRENT_DATE }} --file=Dockerfile
+
+      - name: Upload SARIF Report to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          args: >
-            -Dsonar.projectKey=Omnixys_PersonService
-            -Dsonar.organization=omnixys
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.sources=./src
-            -Dsonar.java.binaries=./build
-            -Dsonar.branch.name=${{ github.ref_name }}
+          sarif_file: snyk-code.sarif
 
+  docker-scout:
+    name: "Security-Docker-Scout-${{ vars.CURRENT_DATE }}"
+    runs-on: ubuntu-latest
+    env:
+      CURRENT_DATE: ${{ vars.CURRENT_DATE }}
+    steps:
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Docker Scout – Quickview
+      - name: Docker Scout Quickview
         id: docker-scout-quickview
-        uses: docker/scout-action@v1.15.1
+        uses: docker/scout-action@0133ff88fe16d4a412dc4827a8fccbccb6b583e0
         with:
           command: quickview
-          image: calebscript/omnixys-person-service:latest
-          summary: false
-          write-comment: true
+          image: calebscript/customer:${{ env.CURRENT_DATE }}
 
-      - name: Save Quickview to File
-        run: echo "${{ steps.docker-scout-quickview.outputs.quickview }}" > docker-scout-quickview.md
-
-      - name: Upload Quickview
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-scout-quickview
-          path: docker-scout-quickview.md
-
-      - name: Docker Scout – CVEs
+      - name: Docker Scout CVEs
         id: docker-scout-cves
-        uses: docker/scout-action@v1.15.1
+        uses: docker/scout-action@0133ff88fe16d4a412dc4827a8fccbccb6b583e0
         with:
           command: cves
-          image: calebscript/omnixys-person-service:latest
-          summary: false
-          write-comment: true
+          image: calebscript/customer:${{ env.CURRENT_DATE }}
 
-      - name: Save CVEs to File
-        run: echo "${{ steps.docker-scout-cves.outputs.cves }}" > docker-scout-cves.md
+      - name: Save Docker Scout Reports
+        run: |
+          echo "${{ steps.docker-scout-quickview.outputs.quickview }}" > docker-scout-quickview.md
+          echo "${{ steps.docker-scout-cves.outputs.cves }}" > docker-scout-cves.md
 
-      - name: Upload CVE Report
+      - name: Upload Docker Scout Reports
         uses: actions/upload-artifact@v4
         with:
-          name: docker-scout-cves
-          path: docker-scout-cves.md
+          name: docker-scout-reports
+          path: ./docker-scout-*.md
+         
