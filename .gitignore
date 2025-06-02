@@ -27,7 +27,6 @@ Thumbs.db
 
 # === Environment Files ===
 .env
-.env.*
 
 # === Test / Coverage ===
 /coverage

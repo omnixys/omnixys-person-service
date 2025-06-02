@@ -12,8 +12,31 @@ on:
 
 env:
   IMAGE_NAME: omnixys-person-service
+  MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+  SERVER_PORT: ${{ secrets.MONGODB_DATABASE }}
+  TEST_SERVER_PORT: ${{ secrets.TEST_SERVER_PORT }}
+
   DOCKER_USER: calebscript
   REGISTRY: docker.io
+
+  ACTIVE_PROFILE: ${{ secrets.ACTIVE_PROFILE }}
+  HTTPS: ${{ secrets.HTTPS }}
+
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
+  NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  KC_SERVICE_SECRET: ${{ secrets.KC_SERVICE_SECRET }}
+  KC_SERVICE_CLIENT_ID: ${{ secrets.KC_SERVICE_CLIENT_ID }}
+  KC_SERVICE_REALM: ${{ secrets.KC_SERVICE_REALM }}
+  KC_SERVICE_HOST: ${{ secrets.KC_SERVICE_HOST }}
+  KC_SERVICE_PORT: ${{ secrets.KC_SERVICE_PORT }}
+  
+  KAFKA_HOST: ${{ secrets.KAFKA_HOST }}
+  TEMPO_HOST: ${{ secrets.TEMPO_HOST }}
 
 jobs:
   build:
