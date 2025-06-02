@@ -10,6 +10,9 @@ permissions:
   security-events: write
   # actions: read
   
+env:
+  IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}
+  
 jobs:
   dependency-check:
     name: "Security-Dependency-Check-${{ vars.CURRENT_DATE }}"
@@ -119,14 +122,14 @@ jobs:
         uses: docker/scout-action@0133ff88fe16d4a412dc4827a8fccbccb6b583e0
         with:
           command: quickview
-          image: calebscript/person:${{ env.CURRENT_DATE }}
+          image: "${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}"
 
       - name: Docker Scout CVEs
         id: docker-scout-cves
         uses: docker/scout-action@0133ff88fe16d4a412dc4827a8fccbccb6b583e0
         with:
           command: cves
-          image: calebscript/person:${{ env.CURRENT_DATE }}
+          image: "${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}"
 
       - name: Save Docker Scout Reports
         run: |

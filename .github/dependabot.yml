@@ -17,7 +17,7 @@ updates:
     reviewers:
       - omnixys-maintainers
     assignees:
-      - calebscript
+      - caleb-script
 
   # 2. Gradle Runtime Dependencies
   - package-ecosystem: "gradle"
@@ -41,7 +41,7 @@ updates:
     reviewers:
       - omnixys-maintainers
     assignees:
-      - calebscript
+      - caleb-script
 
   # 3. Gradle Dev/Test Dependencies
   - package-ecosystem: "gradle"
@@ -63,5 +63,5 @@ updates:
     reviewers:
       - omnixys-maintainers
     assignees:
-      - calebscript
+      - caleb-script
 
