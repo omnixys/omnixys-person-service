@@ -156,35 +156,12 @@ jobs:
           name: person-service-package
           path: person-service.zip
 
-  test:
-    name: test
-    runs-on: ubuntu-latest
-    needs: build
-    env:
-      CURRENT_DATE: ${{ needs.build.outputs.CURRENT_DATE }}
-    steps:
-      - name: print env
-        run: | 
-          echo "${{ env.CURRENT_DATE }}"
-          echo "${{ env.IMAGE_NAME }}"
-
-      - name: Set IMAGE_NAME and CURRENT_DATE
-        run: |
-         echo "IMAGE_NAME=${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}" >> $GITHUB_ENV
-         echo "CURRENT_DATE=${{ needs.build.outputs.CURRENT_DATE }}" >> $GITHUB_ENV
-      
-      - name: Debug tags
-        run: |
-           echo "Tag: $CURRENT_DATE"
-           echo "Image: $IMAGE_NAME"
-
   docker:
     name: 🐳 Docker Build & Push
     runs-on: ubuntu-latest
     needs: [build, package]
     env:
       CURRENT_DATE: ${{ needs.build.outputs.CURRENT_DATE }}
-      IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}
     if: github.actor == 'caleb-script' && github.event_name == 'push'
     steps:
       - name: Checkout Repository
@@ -201,15 +178,15 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t $IMAGE_NAME:${{ env.CURRENT_DATE }} .
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }} .
   
         
       - name: Tag Docker Image
         run: |
-          docker tag $IMAGE_NAME:${{ env.CURRENT_DATE }} $IMAGE_NAME:latest
-          docker tag $IMAGE_NAME:${{ env.CURRENT_DATE }} $IMAGE_NAME:${{ env.CURRENT_DATE }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }} ${{ env.IMAGE_NAME }}:latest
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }} ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}
 
       - name: Push Docker Image
         run: |
-          docker push $IMAGE_NAME:${{ env.CURRENT_DATE }}
-          docker push $IMAGE_NAME:latest
+          docker push ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}
+          docker push ${{ env.IMAGE_NAME }}:latest
