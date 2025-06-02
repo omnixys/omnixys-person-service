@@ -46,7 +46,7 @@ WORKDIR /workspace
 # Installiere systemabhängige Pakete, erstelle User, Berechtigungen
 RUN apt-get update && \
     apt-get upgrade --yes && \
-    apt-get install --no-install-recommends --yes dumb-init=1.2.5-2 && \
+    apt-get install --no-install-recommends --yes dumb-init=1.2.5-2 wget && \
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /tmp/* && \

@@ -1,0 +1,4 @@
+dependencies:
+  - '**/build.gradle'
+  - '**/build.gradle.kts'
+  - '.github/workflows/*.yml'

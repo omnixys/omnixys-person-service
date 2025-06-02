@@ -65,6 +65,9 @@ management:
     enable:
       all: true
   endpoints:
+    health:
+      probes:
+        enabled: true
     prometheus:
       enabled: true
     web:
