@@ -149,20 +149,6 @@ jobs:
           name: omnixys-person-service-jar
           path: build/libs
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '23'
-  
-      - name: Package Application
-        run: ./gradlew bootJar --build-cache  
-      - name: Upload JAR Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: person-jar
-          path: build/libs/*.jar
-
       - name: Archive JAR
         run: zip -j person-service.zip build/libs/*.jar
 
