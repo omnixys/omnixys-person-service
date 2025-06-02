@@ -69,7 +69,6 @@ jobs:
       
       - name: Create .env file
         run: |
-          echo "NODE_ENV=development" >> .env
           echo "MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }}" >> .env
           echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
           echo "TEST_SERVER_PORT=${{ secrets.TEST_SERVER_PORT }}" >> .env
