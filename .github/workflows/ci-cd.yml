@@ -25,6 +25,7 @@ env:
   MONGODB_URI: ${{ secrets.MONGODB_URI }}
   MONGODB_USER_NAME: ${{ secrets.MONGODB_USER_NAME }}
   MONGODB_USER_PASSWORT: ${{ secrets.MONGODB_USER_PASSWORT }}
+  TEST_MONGODB_DATABASE: ${{ secrets.TEST_MONGODB_DATABASE }}
 
   NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -39,6 +40,7 @@ env:
 
   KAFKA_HOST: ${{ secrets.KAFKA_HOST }}
   TEMPO_HOST: ${{ secrets.TEMPO_HOST }}
+  KEYS_PATH: ${{ secrets.KEYS_PATH }}
 
 jobs:
   build:
