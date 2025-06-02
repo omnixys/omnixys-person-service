@@ -16,7 +16,7 @@ env:
   SERVER_PORT: ${{ secrets.SERVER_PORT }}
   TEST_SERVER_PORT: ${{ secrets.TEST_SERVER_PORT }}
 
-  DOCKER_USER: calebscript
+  DOCKER_USER: caleb-script
   REGISTRY: docker.io
 
   ACTIVE_PROFILE: ${{ secrets.ACTIVE_PROFILE }}
@@ -81,11 +81,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-0
       
-            - name: Set CURRENT_DATE
-            id: set_date
-            run: |
-                DATE=$(date +'%Y.%m.%d')
-                echo "CURRENT_DATE=$DATE" >> $GITHUB_OUTPUT
+      - name: Set CURRENT_DATE
+        id: set_date
+        run: |
+            DATE=$(date +'%Y.%m.%d')
+            echo "CURRENT_DATE=$DATE" >> $GITHUB_OUTPUT
     
       - name: Speichere CURRENT_DATE in Repository-Variable
         if: ${{ vars.CURRENT_DATE != steps.set_date.outputs.CURRENT_DATE }}  # Bedingung hinzufügen
