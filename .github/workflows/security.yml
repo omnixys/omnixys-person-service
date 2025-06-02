@@ -95,10 +95,10 @@ jobs:
         continue-on-error: true
 
       - name: Build a Docker Image
-        run: docker build -t omnixys/person:${{ env.CURRENT_DATE }} .
+        run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }} .
 
       - name: Run Snyk Container Monitor
-        run: snyk container monitor omnixys/person:${{ env.CURRENT_DATE }} --file=Dockerfile
+        run: snyk container monitor ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }} --file=Dockerfile
 
       - name: Upload SARIF Report to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
