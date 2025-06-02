@@ -46,6 +46,8 @@ jobs:
   build:
     name: 🔨 Build & Test
     runs-on: ubuntu-latest
+    outputs:
+      CURRENT_DATE: ${{ steps.set_date.outputs.CURRENT_DATE }}
     strategy:
       matrix:
         java-version: [23]
@@ -71,6 +73,29 @@ jobs:
       - name: Grant execute permissions for Gradle
         run: chmod +x ./gradlew
 
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v4
+        with:
+          path: .gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-0
+      
+            - name: Set CURRENT_DATE
+            id: set_date
+            run: |
+                DATE=$(date +'%Y.%m.%d')
+                echo "CURRENT_DATE=$DATE" >> $GITHUB_OUTPUT
+    
+      - name: Speichere CURRENT_DATE in Repository-Variable
+        if: ${{ vars.CURRENT_DATE != steps.set_date.outputs.CURRENT_DATE }}  # Bedingung hinzufügen
+        run: |
+          curl -X PATCH \
+          -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+          -H "Accept: application/vnd.github+json" \
+          https://api.github.com/repos/${{ github.repository }}/actions/variables/CURRENT_DATE \
+          -d '{"value": "${{ steps.set_date.outputs.CURRENT_DATE }}"}'
+
       - name: Build with Gradle
         run: ./gradlew build
 
@@ -85,31 +110,58 @@ jobs:
     
     runs-on: ubuntu-latest
     needs: build
+    strategy:
+      matrix:
+        java-version: [23]
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+
+    - name: Set CURRENT_DATE from Build Output
+      run: echo "CURRENT_DATE=${{ needs.build.outputs.CURRENT_DATE }}" >> $GITHUB_ENV
+
+    - name: Setup Java ${{ matrix.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java-version }}
 
     - name: Run Code Quality (JaCoCo)
       run: ./gradlew jacocoTestReport
 
      
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        publish_dir: ./docs/backend
-        destination_dir: backend
+    # - name: Deploy to GitHub Pages
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    #     publish_dir: ./docs/backend
+    #     destination_dir: backend
 
   package:
     name: 📦 Package Application
     runs-on: ubuntu-latest
     needs: [build, analyze]
+    if: github.actor == 'caleb-script' && github.event_name == 'push'
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: omnixys-person-service-jar
           path: build/libs
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+  
+      - name: Package Application
+        run: ./gradlew bootJar --build-cache  
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: person-jar
+          path: build/libs/*.jar
 
       - name: Archive JAR
         run: zip -j person-service.zip build/libs/*.jar
@@ -124,6 +176,9 @@ jobs:
     name: 🐳 Docker Build & Push
     runs-on: ubuntu-latest
     needs: package
+    env:
+      CURRENT_DATE: ${{ needs.build.outputs.CURRENT_DATE }}
+    if: github.actor == 'caleb-script' && github.event_name == 'push'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -136,9 +191,22 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+        
+      - name: Set CURRENT_DATE from Build Output
+        run: echo "${{ env.CURRENT_DATE }}"
 
-      - name: Build & Push Docker Image
+      - name: Build Docker Image
         run: |
-          IMAGE_TAG=latest
-          docker build -t $REGISTRY/$DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG .
-          docker push $REGISTRY/$DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG
+          docker build \
+            -t omnixys/person:${{ env.CURRENT_DATE }} .
+  
+        
+      - name: Tag Docker Image
+        run: |
+          docker tag omnixys/person:${{ env.CURRENT_DATE }} omnixys/person:latest
+          docker tag omnixys/person:${{ env.CURRENT_DATE }} omnixys/person:${{ env.CURRENT_DATE }}
+
+      - name: Push Docker Image
+        run: |
+          docker push omnixys/person:${{ env.CURRENT_DATE }}
+          docker push omnixys/person:latest
