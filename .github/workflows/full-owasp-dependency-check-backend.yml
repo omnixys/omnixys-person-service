@@ -35,6 +35,12 @@ jobs:
       - name: 🔍 Debug output directory
         run: ls -al
 
+      - name: 🔍 Debug output directory
+        run: ls -al ./dc
+
+      - name: 🔍 Debug output directory
+        run: ls -al ./dc/dependency-check
+
       - name: Upload Report as Artifact
         if: always() 
         uses: actions/upload-artifact@v4
