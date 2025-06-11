@@ -19,7 +19,7 @@ Der **Omnixys Person Service** ist ein Java-basierter Microservice zur Verwaltun
 
 | Komponente        | Technologie                  |
 | ----------------- | ---------------------------- |
-| Sprache           | Java (23)                    |
+| Sprache           | Java (24)                    |
 | Framework         | Spring Boot                  |
 | Authentifizierung | Keycloak                     |
 | API               | GraphQL (Schema First)       |
