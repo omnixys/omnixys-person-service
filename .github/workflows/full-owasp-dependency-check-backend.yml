@@ -28,6 +28,9 @@ jobs:
             --format "HTML" \
             --out ./dependency-check-report
         continue-on-error: true
+      
+      - name: 🔍 Debug output directory
+        run: ls -R ./dependency-check-report || echo "❌ Kein Report-Verzeichnis vorhanden"
 
       - name: Upload Report as Artifact
         if: always() 
