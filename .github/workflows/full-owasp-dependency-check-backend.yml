@@ -32,6 +32,9 @@ jobs:
       - name: 🔍 Debug output directory
         run: ls -R ./dependency-check-report || echo "❌ Kein Report-Verzeichnis vorhanden"
 
+      - name: 🔍 Debug output directory
+        run: ls -al
+
       - name: Upload Report as Artifact
         if: always() 
         uses: actions/upload-artifact@v4
