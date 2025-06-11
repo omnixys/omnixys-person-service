@@ -57,6 +57,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven(url = "https://projectlombok.org/mavenrepo") // Nightly Repo
 }
 
 dependencyManagement {
