@@ -19,6 +19,12 @@ jobs:
           unzip dc.zip -d dc
           chmod +x dc/dependency-check/bin/dependency-check.sh
 
+      - name: Install OWASP Dependency-Check
+        run: |
+            curl -L https://github.com/jeremylong/DependencyCheck/releases/download/v11.1.0/dependency-check-11.1.0-release.zip -o dependency-check-11.1.0-release.zip
+            unzip dependency-check-11.1.0-release.zip -d dependency-check
+            chmod +x dependency-check/dependency-check
+
       - name: Run OWASP Dependency Check
         run: |
           ./dc/dependency-check/bin/dependency-check.sh \
@@ -26,7 +32,17 @@ jobs:
             --scan . \
             --nvdApiKey ${{ secrets.NVD_API_KEY }} \
             --format "HTML" \
-            --out ./dependency-check-report
+            --out ./dependency-check-report2
+        continue-on-error: true
+      
+      - name: Run OWASP Dependency Check
+        run: |
+          dependency-check/dependency-check/bin/dependency-check.sh \
+            --project "Omnixys Person Service" \
+            --scan . \
+            --nvdApiKey ${{ secrets.NVD_API_KEY }} \
+            --format "HTML" \
+            --out dependency-check-report
         continue-on-error: true
       
       - name: 🔍 Debug output directory
@@ -34,12 +50,6 @@ jobs:
 
       - name: 🔍 Debug output directory
         run: ls -al
-
-      - name: 🔍 Debug output directory
-        run: ls -al ./dc
-
-      - name: 🔍 Debug output directory
-        run: ls -al ./dc/dependency-check
 
       - name: Upload Report as Artifact
         if: always() 
