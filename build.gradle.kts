@@ -1,3 +1,5 @@
+import org.cyclonedx.gradle.CycloneDxTask
+
 val javaLanguageVersion = project.properties["javaLanguageVersion"] as String? ?: JavaVersion.VERSION_24.majorVersion
 val javaVersion = project.properties["javaVersion"] ?: libs.versions.javaVersion.get()
 
