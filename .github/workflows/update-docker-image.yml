@@ -3,7 +3,12 @@ name: Update Docker Image Tag
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write # ← WICHTIG für Cosign ohne Schlüssel (keyless signing)
+
 env:
+  COSIGN_EXPERIMENTAL: "true"
   IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}
   MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
   SERVER_PORT: ${{ secrets.SERVER_PORT }}
@@ -31,6 +36,7 @@ env:
   KAFKA_HOST: ${{ secrets.KAFKA_HOST }}
   TEMPO_HOST: ${{ secrets.TEMPO_HOST }}
   KEYS_PATH: ${{ secrets.KEYS_PATH }}
+  
 jobs:
   docker:
     name: 🐳 Docker Build & Push
@@ -50,41 +56,6 @@ jobs:
 
       - name: Print tag
         run: echo "The tag is ${{ github.ref_name }}"
-
-      - name: Set CURRENT_DATE
-        id: set_date
-        run: |
-          DATE=$(date +'%Y-%m-%d')
-          echo "CURRENT_DATE=$DATE" >> $GITHUB_OUTPUT
-
-      - name: Aktualisiere CURRENT_DATE in Organisations-Variable (sicher)
-        run: |
-          CURRENT_DATE="${{ steps.set_date.outputs.CURRENT_DATE }}"
-
-          if [ -z "$CURRENT_DATE" ]; then
-            echo "Fehler: CURRENT_DATE ist leer!"
-            exit 1
-          fi
-
-          ORG_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f1)
-
-          EXISTING=$(curl -s \
-            -H "Authorization: Bearer ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/orgs/${ORG_NAME}/actions/variables/CURRENT_DATE \
-            | jq -r '.value')
-
-          echo "Updating org-level CURRENT_DATE from $EXISTING to $CURRENT_DATE"
-
-          if [ "$EXISTING" != "$CURRENT_DATE" ]; then
-            curl -X PATCH \
-              -H "Authorization: Bearer ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/orgs/${ORG_NAME}/actions/variables/CURRENT_DATE \
-              -d "{\"value\": \"${CURRENT_DATE}\"}"
-          else
-            echo "CURRENT_DATE ist bereits aktuell: $CURRENT_DATE"
-          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -125,20 +96,3 @@ jobs:
         run: |
           cosign sign --yes ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}
           cosign sign --yes ${{ env.IMAGE_NAME }}:latest
-
-      # - name: Generate CycloneDX SBOM for Java (Gradle)
-      #   run: ./gradlew cyclonedxBom
-
-      # - name: Cosign SBOM Attestation
-      #   run: |
-      #     cosign attest \
-      #       --predicate build/reports/bom.json \
-      #       --type cyclonedx \
-      #       --key github \
-      #       ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}
-
-      # - name: Upload SBOM (CycloneDX)
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: sbom-cyclonedx
-      #     path: build/reports/bom.json # oder .xml

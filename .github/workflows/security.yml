@@ -36,8 +36,6 @@ jobs:
   
   snyk:
     name: "Security-Snyk-Scan-${{ vars.CURRENT_DATE }}"
-    env:
-      CURRENT_DATE: ${{ vars.CURRENT_DATE }}
     runs-on: ubuntu-latest
     
     steps:
@@ -95,10 +93,10 @@ jobs:
         continue-on-error: true
 
       - name: Build a Docker Image
-        run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }} .
+        run: docker build -t ${{ env.IMAGE_NAME }}:latest .
 
       - name: Run Snyk Container Monitor
-        run: snyk container monitor ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }} --file=Dockerfile
+        run: snyk container monitor ${{ env.IMAGE_NAME }}:latest --file=Dockerfile
 
       - name: Upload SARIF Report to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
@@ -108,8 +106,6 @@ jobs:
   docker-scout:
     name: "Security-Docker-Scout-${{ vars.CURRENT_DATE }}"
     runs-on: ubuntu-latest
-    env:
-      CURRENT_DATE: ${{ vars.CURRENT_DATE }}
     steps:
       - name: Log in to Docker Hub
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
@@ -122,14 +118,15 @@ jobs:
         uses: docker/scout-action@0133ff88fe16d4a412dc4827a8fccbccb6b583e0
         with:
           command: quickview
-          image: "${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}"
+          image: "${{ env.IMAGE_NAME }}:latest"
+          
 
       - name: Docker Scout CVEs
         id: docker-scout-cves
         uses: docker/scout-action@0133ff88fe16d4a412dc4827a8fccbccb6b583e0
         with:
           command: cves
-          image: "${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}"
+          image: "${{ env.IMAGE_NAME }}:latest"
 
       - name: Save Docker Scout Reports
         run: |

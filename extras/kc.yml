@@ -1,0 +1,18 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-image-signatures
+spec:
+  validationFailureAction: enforce
+  rules:
+    - name: require-signed-image
+      match:
+        resources:
+          kinds:
+            - Pod
+      verifyImages:
+        - image: "ghcr.io/omnixys/*"  # oder docker.io/deinuser/*
+          key: "cosign.pub"           # oder URL zu Key (KMS, Rekor etc.)
+          attestations:
+            - predicateType: "https://cyclonedx.org/schema"
+              required: true
