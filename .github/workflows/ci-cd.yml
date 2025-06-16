@@ -1,14 +1,13 @@
 name: CI/CD Pipeline – Omnixys Person Service
-
 on:
   pull_request:
     branches:
       - "**"
-  # push:
-  #   branches:
-  #     - main
-  #   tags:
-  #     - "v*" # Nur für Versionstags (z.B. v1.0.0)
+  push:
+    branches:
+      - main
+    tags:
+      - "v*" # Nur für Versionstags (z.B. v1.0.0)
 
 permissions:
   contents: read
@@ -124,7 +123,7 @@ jobs:
       - name: Upload Build Artifact (JAR)
         uses: actions/upload-artifact@v4
         with:
-          name: omnixys-person-service-jar
+          name: omnixys-${{ secrets.SERVICE }}-service-jar
           path: build/libs/*.jar
 
   analyze:
@@ -165,17 +164,17 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: omnixys-person-service-jar
+          name: omnixys-${{ secrets.SERVICE }}-service-jar
           path: build/libs
 
       - name: Archive JAR
-        run: zip -j person-service.zip build/libs/*.jar
+        run: zip -j ${{ secrets.SERVICE }}-service.zip build/libs/*.jar
 
       - name: Upload ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: person-service-package
-          path: person-service.zip
+          name: ${{ secrets.SERVICE }}-service-package
+          path: ${{ secrets.SERVICE }}-service.zip
 
   docker:
     name: 🐳 Docker Build & Push

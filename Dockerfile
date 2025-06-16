@@ -1,10 +1,6 @@
 # syntax=docker/dockerfile:1.14.0
 
 ARG JAVA_VERSION=24
-ARG APP_NAME=person
-ARG APP_VERSION=dev
-ARG CREATED=unknown
-ARG REVISION=none
 
 # ---------------------------------------------------------------------------------------
 # Stage 1: builder (Gradle Build)
@@ -39,17 +35,17 @@ ARG REVISION
 ARG JAVA_VERSION
 
 LABEL org.opencontainers.image.title="${APP_NAME}-service" \
-      org.opencontainers.image.description="Microservice ${APP_NAME}-service v1 mit Basis-Image Azul Zulu und Ubuntu Jammy" \
+      org.opencontainers.image.description="Omnixys ${APP_NAME}-service – Java ${JAVA_VERSION}, built with Gradle, Version ${APP_VERSION}, basiert auf Azul Zulu & Ubuntu Jammy." \
       org.opencontainers.image.version="${APP_VERSION}" \
       org.opencontainers.image.licenses="GPL-3.0-or-later" \
-      org.opencontainers.image.vendor="Omnixys" \
+      org.opencontainers.image.vendor="omnixys" \
       org.opencontainers.image.authors="caleb.gyamfi@omnixys.com" \
       org.opencontainers.image.base.name="azul/zulu-openjdk:${JAVA_VERSION}-jre" \
-      org.opencontainers.image.url="https://github.com/Omnixys/omnixys-${APP_NAME}-service" \
-      org.opencontainers.image.source="https://github.com/Omnixys/omnixys-${APP_NAME}-service" \
+      org.opencontainers.image.url="https://github.com/omnixys/omnixys-${APP_NAME}-service" \
+      org.opencontainers.image.source="https://github.com/omnixys/omnixys-${APP_NAME}-service" \
       org.opencontainers.image.created="${CREATED}" \
       org.opencontainers.image.revision="${REVISION}" \
-      org.opencontainers.image.documentation="https://github.com/Omnixys/omnixys-${APP_NAME}-service/blob/main/README.md"
+      org.opencontainers.image.documentation="https://github.com/omnixys/omnixys-${APP_NAME}-service/blob/main/README.md"
 
 WORKDIR /workspace
 

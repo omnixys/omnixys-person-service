@@ -1,4 +1,4 @@
-name: Security - Omnixys Person Service
+name: Security
   # CURRENT_DATE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.date || format('{0,date,yyyy-MM-dd}', github.run_started_at) }}
 
 on:
@@ -25,7 +25,7 @@ jobs:
       - name: Run OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@75ba02d6183445fe0761d26e836bde58b1560600
         with:
-          project: "Omnixys Person Service"
+          project: "omnixys-${{ secrets.SERVICE }}-service"
           path: './'
           format: 'HTML'
 
