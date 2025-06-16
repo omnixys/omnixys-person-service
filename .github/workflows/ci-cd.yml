@@ -4,11 +4,11 @@ on:
   pull_request:
     branches:
       - "**"
-  push:
-    branches:
-      - main
-    tags:
-      - "v*" # Nur für Versionstags (z.B. v1.0.0)
+  # push:
+  #   branches:
+  #     - main
+  #   tags:
+  #     - "v*" # Nur für Versionstags (z.B. v1.0.0)
 
 permissions:
   contents: read
