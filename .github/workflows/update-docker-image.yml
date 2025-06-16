@@ -9,7 +9,7 @@ permissions:
 
 env:
   COSIGN_EXPERIMENTAL: "true"
-  IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}
+  IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}-service
   MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
   SERVER_PORT: ${{ secrets.SERVER_PORT }}
   TEST_SERVER_PORT: ${{ secrets.TEST_SERVER_PORT }}
@@ -36,11 +36,14 @@ env:
   KAFKA_HOST: ${{ secrets.KAFKA_HOST }}
   TEMPO_HOST: ${{ secrets.TEMPO_HOST }}
   KEYS_PATH: ${{ secrets.KEYS_PATH }}
-  
+
 jobs:
   docker:
     name: 🐳 Docker Build & Push
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [24]
     env:
       CURRENT_DATE: ${{ vars.CURRENT_DATE }}
     if: github.actor == 'caleb-script' && github.event_name == 'push'
@@ -86,6 +89,12 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}
             ${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            REVISION=${{ github.sha }}
+            CREATED=${{ env.CURRENT_DATE }}
+            APP_VERSION=${{ env.CURRENT_DATE }}
+            APP_NAME=${{ secrets.SERVICE }}
+            JAVA_VERSION=${{ matrix.java-version }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -94,5 +103,5 @@ jobs:
 
       - name: Sign Docker Image with cosign (OIDC/GitHub)
         run: |
-          cosign sign --yes ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}
-          cosign sign --yes ${{ env.IMAGE_NAME }}:latest
+          cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:${{ env.CURRENT_DATE }}
+          cosign sign --yes --recursive ${{ env.IMAGE_NAME }}:latest
