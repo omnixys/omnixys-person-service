@@ -73,7 +73,7 @@ jobs:
         java-version: [24]
     env:
       CURRENT_DATE: ${{ needs.sync-current-date.outputs.current_date }}
-    if: github.actor == 'caleb-script' && github.event_name == 'push'
+    # if: github.actor == 'caleb-script' && github.event_name == 'push'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

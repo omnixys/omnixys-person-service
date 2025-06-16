@@ -1,5 +1,11 @@
 # syntax=docker/dockerfile:1.14.0
 
+ARG JAVA_VERSION=24
+ARG APP_NAME=person
+ARG APP_VERSION=dev
+ARG CREATED=unknown
+ARG REVISION=none
+
 # ---------------------------------------------------------------------------------------
 # Stage 1: builder (Gradle Build)
 # ---------------------------------------------------------------------------------------
