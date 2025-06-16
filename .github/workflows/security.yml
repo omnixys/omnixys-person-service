@@ -1,4 +1,4 @@
-name: Security – Omnixys Person Service
+name: Security - Omnixys Person Service
 
 on:
   schedule:
@@ -12,8 +12,8 @@ permissions:
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USER }}/${{ secrets.SERVICE }}
-  
-jobs:       
+
+jobs:
   dependency-check:
     name: "Security-Dependency-Check-${{ vars.CURRENT_DATE }}"
     runs-on: ubuntu-latest
@@ -33,11 +33,11 @@ jobs:
         with:
           name: Depcheck-report
           path: ./reports
-  
+
   snyk:
     name: "Security-Snyk-Scan-${{ vars.CURRENT_DATE }}"
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -60,9 +60,9 @@ jobs:
         run: ./gradlew dependencies
 
       - name: Run Snyk Code Test
-        run: snyk code test --sarif > snyk-code.sarif 
+        run: snyk code test --sarif > snyk-code.sarif
         continue-on-error: true
-        
+
       - name: Run Snyk Code Test JSON
         run:  snyk test --severity-threshold=high --json-file-output=snyk-report.json
         continue-on-error: true
@@ -89,7 +89,7 @@ jobs:
         run: snyk monitor --all-projects #--severity-threshold=high
 
       - name: Run Snyk IaC Test
-        run: snyk iac test --report 
+        run: snyk iac test --report
         continue-on-error: true
 
       - name: Build a Docker Image
@@ -119,7 +119,7 @@ jobs:
         with:
           command: quickview
           image: "${{ env.IMAGE_NAME }}:latest"
-          
+
 
       - name: Docker Scout CVEs
         id: docker-scout-cves
@@ -138,4 +138,4 @@ jobs:
         with:
           name: docker-scout-reports
           path: ./docker-scout-*.md
-         
+
