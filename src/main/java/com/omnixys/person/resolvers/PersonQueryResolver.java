@@ -68,7 +68,7 @@ public class PersonQueryResolver {
     ) {
         final var customer = getPerson(id, authentication);
         final var contacts = contactReadService.findByCustomerId(id);
-        customer.setContacts(contacts);
+          customer.setContacts(contacts);
         return customer;
     }
 

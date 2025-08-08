@@ -8,6 +8,8 @@ import com.omnixys.person.exceptions.PasswordInvalidException;
 import com.omnixys.person.exceptions.UsernameExistsException;
 import com.omnixys.person.messaging.KafkaPublisherService;
 import com.omnixys.person.models.entities.Contact;
+import com.omnixys.person.models.entities.Customer;
+import com.omnixys.person.models.entities.Employee;
 import com.omnixys.person.models.entities.Person;
 import com.omnixys.person.models.enums.PersonType;
 import com.omnixys.person.repositories.ContactRepository;
@@ -24,6 +26,7 @@ import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +75,8 @@ public class PersonWriteService {
         return factory.getLogger(getClass());
     }
 
-    /**
+
+  /**
      * Erstellt eine neue Person im System.
      *
      * @param customer Die zu speichernden Kunden.
@@ -146,12 +150,13 @@ public class PersonWriteService {
     }
 
     @Observed(name = "person-service.write.update-customer")
-    public Person updateCustomer(Person customerInput, UUID id, int version, final CustomUserDetails user) {
+    public Person updateCustomer(Person customerInput, UUID id, int version, final CustomUserDetails user, final String username) {
         Span serviceSpan = tracer.spanBuilder("person-service.write.update-customer").startSpan();
         try (Scope serviceScope = serviceSpan.makeCurrent()) {
             assert serviceScope != null;
 
-            logger().debug("updateCustomer: id={}, version={}, customer={}, user={}", id, version, customerInput, user.getUsername());
+            customerInput.setUsername(username);
+            logger().debug("updateCustomer: id={}, version={}, customer={}, user={}, username", id, version, customerInput, user.getUsername(), username);
 
             final Person customerDb;
             Span readServiceSpan = tracer.spanBuilder("person-service.write.update-customer").startSpan();
@@ -168,6 +173,7 @@ public class PersonWriteService {
 
             validateAndUpdateUserDetails(customerDb, customerInput, user);
             customerDb.set(customerInput);
+            customerDb.setVersion(++version);
             customerDb.getCustomer().setCustomerState(ACTIVE);
 
             Span keycloakSpan = tracer.spanBuilder("keycloak.update-customer").startSpan();
@@ -186,7 +192,10 @@ public class PersonWriteService {
             Span mongoSpan = tracer.spanBuilder("person-repository.save").startSpan();
             try (Scope mongoScope = mongoSpan.makeCurrent()) {
                 assert mongoScope != null;
+
                 updatedCustomerDb = personRepository.save(customerDb);
+
+
             } catch (Exception e) {
                 mongoSpan.recordException(e);
                 mongoSpan.setStatus(StatusCode.ERROR, "Fehler beim speichern");
@@ -205,6 +214,8 @@ public class PersonWriteService {
             serviceSpan.end();
         }
     }
+
+
 
     @Observed(name = "person-service.delete-customer")
     public void deleteCustomerById(final UUID id, final int version, final CustomUserDetails user) {
@@ -637,7 +648,7 @@ public class PersonWriteService {
             personRepository.existsByUsername(newPerson.getUsername()))
             throw new UsernameExistsException(newPerson.getUsername());
 
-        newPerson.setUsername(newPerson.getUsername().toLowerCase(GERMAN));
+       newPerson.setUsername(newPerson.getUsername().toLowerCase(GERMAN));
     }
 
     private boolean isAdmin(CustomUserDetails user) {

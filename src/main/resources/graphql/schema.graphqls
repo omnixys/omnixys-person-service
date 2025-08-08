@@ -21,7 +21,7 @@ type Mutation {
     createCustomer(input: CreateCustomerInput!): ID!
     createEmployee(input: CreateEmployeeInput!): ID!
 
-    updateCustomer(input: UpdateCustomerInput!, id: ID!, version: Int!): Person!
+    updateCustomer(input: UpdateCustomerInput!, id: ID!, version: Int!, username: String): Person!
     updateEmployee(input: UpdateEmployeeInput!, id: ID!, version: Int!): Person!
 
     deleteCustomer(id: ID!, version: Int!): Boolean!

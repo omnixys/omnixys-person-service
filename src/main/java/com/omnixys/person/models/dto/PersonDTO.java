@@ -54,10 +54,10 @@ public record PersonDTO(
     String phoneNumber,
 
     @Past(message = "Das Geburtsdatum muss in der Vergangenheit liegen.")
-    @NotNull(message = "Das Geburtsdatum ist erforderlich.")
+    // @NotNull(message = "Das Geburtsdatum ist erforderlich.")
     LocalDate birthdate,
 
-    @NotNull(message = "Bitte gib dein Geschlecht an.")
+    // @NotNull(message = "Bitte gib dein Geschlecht an.")
     GenderType gender,
 
     @NotBlank(groups = Constants.OnCreate.class, message = "Bitte gib deine Adresse an.")

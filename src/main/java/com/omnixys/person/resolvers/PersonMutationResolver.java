@@ -106,15 +106,16 @@ public class PersonMutationResolver {
         @Argument("id") final UUID id,
         @Argument("version") final int version,
         @Argument("input") final CreateCustomerInput updateCustomerInput,
+        @Argument("username") final String username,
         final Authentication authentication
     ) {
-        logger().debug("updateCustomer: id={}, version={} updateCustomerInput={}", id, version, updateCustomerInput);
+        logger().debug("updateCustomer: id={}, version={} updateCustomerInput={}, username={}", id, version, updateCustomerInput, username);
         final var user = (CustomUserDetails) authentication.getPrincipal();
         validation.validateDTO(updateCustomerInput);
         logger().trace("updateCustomer: No constraints violated");
 
         final var customerInput = personMapper.toPerson(updateCustomerInput);
-        final var updatedCustomer = personWriteService.updateCustomer(customerInput, id, version, user);
+        final var updatedCustomer = personWriteService.updateCustomer(customerInput, id, version, user, username);
 
         logger().debug("updateCustomer: customer={}", updatedCustomer);
         return updatedCustomer;

@@ -15,6 +15,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,13 +48,13 @@ public class Person {
      * Automatische UUID-Generierung bei der Erstellung.
      */
     @Id
-    @GeneratedValue
+//    @GeneratedValue
     private UUID id;
 
     /**
      * Versionsnummer für die Optimistic Locking-Strategie.
      */
-    @Version
+    //@Version
     private int version;
 
     /**

@@ -115,7 +115,7 @@ public class ContactReadService {
         Span serviceSpan = tracer.spanBuilder("contact-service.read.find-by-customer-id").startSpan();
         try (Scope serviceScope = serviceSpan.makeCurrent()) {
             assert serviceScope != null;
-            logger().debug("find: customerId={}", customerId);
+            logger().debug("findByCustomerId: customerId={}", customerId);
 
             Span mongoSpan = tracer.spanBuilder("mongo.find.contacts").startSpan();
             try (Scope mongoScope = mongoSpan.makeCurrent()) {
@@ -123,7 +123,7 @@ public class ContactReadService {
                 Query query = new Query().addCriteria(Criteria.where("customerId").is(customerId));
                 serviceSpan.setAttribute("customer.id", customerId.toString());
                 List<Contact> results = mongoTemplate.find(query, Contact.class);
-                logger().info("find: {} contacts found for customer {}", results.size(), customerId);
+                logger().info("findByCustomerId: {} contacts found for customer {}", results.size(), customerId);
                 return results;
             } catch (Exception e) {
                 mongoSpan.recordException(e);

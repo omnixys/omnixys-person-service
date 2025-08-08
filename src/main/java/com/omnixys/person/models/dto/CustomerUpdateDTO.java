@@ -67,11 +67,6 @@ public record CustomerUpdateDTO(
 
   boolean subscribed,
 
-  @Past(message = "Birthdate must be a past date.")
-  LocalDate birthdate,
-
-  GenderType gender,
-
   MaritalStatusType maritalStatus,
 
   @UniqueElements(message = "Interests must be unique.")
